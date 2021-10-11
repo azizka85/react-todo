@@ -1,16 +1,10 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react';
 import React from "react";
+import styled from '@emotion/styled';
 
-export interface TodoItemProps {
-  title: string,
-  active: boolean
-}
-
-export function TodoItem(props: TodoItemProps) {
-  return (
-    <li>
-      {props.title} ({props.active ? 'active' : 'not active'})
-    </li>
-  );
-}
+export const TodoItem = styled.li(({ theme }) => ({
+  listStyle: 'none',
+  padding: '1rem 0.5rem',
+  borderBottom: '1px solid #dddddd',
+  fontSize: '1.25rem',
+  display: 'flex'
+}));

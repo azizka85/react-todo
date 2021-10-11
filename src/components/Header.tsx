@@ -1,16 +1,17 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
+import { jsx, useTheme } from '@emotion/react';
 import React from "react";
 
 export function Header() {
+  const theme = useTheme();
+
   return (
     <div
       css={{
         marginTop: '2rem',
         marginBottom: '1rem',
-        fontFamily: 'sans-serif',
         fontSize: '2rem',
-        color: '#dddddd',
+        color: theme.colors.header,
         fontWeight: 'lighter',        
         '@media (min-width: 25rem)': {
           fontSize: '3rem'
