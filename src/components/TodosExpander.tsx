@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, useTheme } from '@emotion/react';
+import { jsx } from '@emotion/react';
 import { TodoHeaderIcon } from './TodoHeaderIcon';
 
 export interface TodosExpanderProps {

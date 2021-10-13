@@ -9,10 +9,11 @@ const theme = {
     primary: '#b3d7ff',
     header: '#dddddd',
     border: '#dddddd',
+    footer: '#f9f9f9',
     active: '#777777',
     inactive: '#bbbbbb',
     shadow: '#dddddd',
-    background: '#ffffff'
+    background: '#ffffff'    
   },
   backgroundGradient: {
     begin: '#ffffff',

@@ -6,6 +6,7 @@ declare module '@emotion/react' {
       primary: string,
       header: string,
       border: string,
+      footer: string,
       active: string,
       inactive: string,
       shadow: string,
