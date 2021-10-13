@@ -1,85 +1,89 @@
-/** @jsx jsx */
-import { jsx, useTheme } from '@emotion/react';
-import React, { useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
 import { TodoItem } from './TodoItem';
-import { TodoHeaderIcon } from './TodoHeaderIcon';
+import { TodosExpander } from './TodosExpander';
 import { TodoHeaderInput } from './TodoHeaderInput';
+import { TodosContainer } from './TodosContainer';
+import { TodosList } from './TodosList';
+import { TodoCheckbox } from './TodoCheckbox';
+
+interface Task {
+  id: string,
+  completed: boolean,
+  text: string
+}
+
+function saveTasks(newTasks) {
+  localStorage.setItem('data', JSON.stringify(newTasks));
+}
+
+function loadTasks(): Task[] {
+  try {
+    let data = JSON.parse(localStorage.getItem('data'));
+    return data || [];
+  } catch { }
+
+  return [];
+}
+
 
 export function Todos() {
-  const theme = useTheme();
   const [display, setDisplay] = useState(true);
+  const [tasks, setTasks] = useState<Task[]>(loadTasks());
 
   function toggleDisplay() {
     setDisplay(!display);
   }
 
+  function updateTodoCheck(id: string, check: boolean) {
+     const task = tasks.find(item => item.id === id);
+
+     if(task !== undefined) {
+       task.completed = check;
+
+       const newTasks = [...tasks];
+
+       saveTasks(newTasks);
+       setTasks(newTasks);
+     }     
+  }
+
+  function addTodo(evt: KeyboardEvent) {
+    if(evt.key === 'Enter' && evt.target instanceof HTMLInputElement) {
+      const target = evt.target as HTMLInputElement;
+      const task = target.value.trim();
+
+      if(task !== '') {
+        const newTasks = [
+          ...tasks,
+          {
+            id: '' + Date.now(),
+            completed: false,
+            text: task  
+          }
+        ];
+
+        saveTasks(newTasks);
+        setTasks(newTasks);
+
+        target.value = '';
+      }
+    }
+  }
+
   return (
-    <div
-      css={{        
-        width: 'calc(100% - 2rem)',
-        background: theme.colors.background,
-        '@media (min-width: 50rem)': {
-          width: '40rem'
-        },
-        boxShadow: `0px 0px 10px ${theme.colors.shadow}`
-      }}
-    >
-      <ul
-        css={{
-          padding: 0,
-          margin: 0
-        }}
-      >
+    <TodosContainer>
+      <TodosList>
         <TodoItem>
-          <span 
-            css={{
-              width: '1.5rem',
-              height: '1.5rem',
-              cursor: 'pointer',
-              marginRight: '1rem'
-            }}
-            onClick={toggleDisplay}
-          >
-            {display
-              ? <TodoHeaderIcon viewBox="0 0 16 16">
-                  <path 
-                    fillRule="evenodd" 
-                    d={`
-                        M1.646 4.646a.5.5 0 0 1 .708 0L8 
-                        10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 
-                        6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z
-                    `}
-                  />
-                </TodoHeaderIcon>
-              : <TodoHeaderIcon viewBox="0 0 16 16">
-                  <path 
-                    fillRule="evenodd" 
-                    d={`
-                        M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 
-                        .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 
-                        2.354a.5.5 0 0 1 0-.708z                  
-                    `}
-                  />
-                </TodoHeaderIcon>
-            }                       
-          </span>
-          <TodoHeaderInput placeholder="What needs to be done?" type="text" /> 
+          <TodosExpander display={display} toggleHandler={toggleDisplay} />
+          <TodoHeaderInput placeholder="What needs to be done?" type="text" onKeyUp={addTodo} /> 
         </TodoItem>
-        {display &&
-          <>
-            <TodoItem data-test-id="test1">
-              Test #1 (active)
-            </TodoItem>
-            <TodoItem data-test-id="test2">
-              Test #2 (not active)
-            </TodoItem>
-            <TodoItem data-test-id="test3">
-              Test #3 (active)
-            </TodoItem>          
-          </>        
-        }
-      </ul>
-    </div>
+        {display && tasks.map(item => (
+          <TodoItem key={item.id}>
+            <TodoCheckbox {...item} onChecked={updateTodoCheck} />
+          </TodoItem>
+        ))}
+      </TodosList>
+      </TodosContainer>
   );
 }
 

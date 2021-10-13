@@ -1,4 +1,3 @@
-import React from "react";
 import styled from '@emotion/styled';
 
 export const TodoItem = styled.li(({ theme }) => ({
@@ -6,5 +5,6 @@ export const TodoItem = styled.li(({ theme }) => ({
   padding: '1rem 0.5rem',
   borderBottom: '1px solid #dddddd',
   fontSize: '1.25rem',
-  display: 'flex'
+  display: 'flex',
+  alignItems: 'center'
 }));

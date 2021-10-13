@@ -6,10 +6,11 @@ import { Todos } from './components/Todos';
 
 const theme = {
   colors: {
+    primary: '#b3d7ff',
     header: '#dddddd',
     border: '#dddddd',
     active: '#777777',
-    inactive: '#dddddd',
+    inactive: '#bbbbbb',
     shadow: '#dddddd',
     background: '#ffffff'
   },
@@ -36,11 +37,12 @@ export function App() {
             'html, body, #root': {
               width: '100%',
               height: '100%',
-              margin: 0
+              margin: 0,
+              fontFamily: "'Roboto', sans-serif"
             }
           }}
         />
-        <Header />
+        <Header>todos</Header>
         <Todos />
       </div>
     </ThemeProvider>
