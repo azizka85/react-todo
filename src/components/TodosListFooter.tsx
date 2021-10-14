@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, useTheme } from '@emotion/react';
+import { TodosListFooterButton } from './TodosListFooterButton'
 
 export enum TodosListRange {
   All,
@@ -41,59 +42,31 @@ export function TodosListFooter(props: TodosListFooterProps) {
           marginLeft: '0.5rem'
         }
       }}>
-        <div 
-          css={{
-            cursor: 'pointer',
-            border: props.currentRange === TodosListRange.All 
-              ? `2px solid ${theme.colors.border}`
-              : 'none',
-            padding: props.currentRange === TodosListRange.All 
-              ? '0.25rem'
-              : 'none'
-          }}
+        <TodosListFooterButton
+          active={props.currentRange === TodosListRange.All}
           onClick={() => props.onSelected(TodosListRange.All)}
         >
           All
-        </div>
-        <div
-          css={{
-            cursor: 'pointer',
-            border: props.currentRange === TodosListRange.Active 
-              ? `2px solid ${theme.colors.border}`
-              : 'none',
-            padding: props.currentRange === TodosListRange.Active 
-              ? '0.25rem'
-              : 'none'
-          }}
+        </TodosListFooterButton>
+        <TodosListFooterButton
+          active={props.currentRange === TodosListRange.Active}
           onClick={() => props.onSelected(TodosListRange.Active)}        
         >
           Active
-        </div>
-        <div
-          css={{
-            cursor: 'pointer',
-            border: props.currentRange === TodosListRange.Completed 
-              ? `2px solid ${theme.colors.border}`
-              : 'none',
-            padding: props.currentRange === TodosListRange.Completed
-              ? '0.25rem'
-              : 'none'
-          }}
+        </TodosListFooterButton>
+        <TodosListFooterButton
+          active={props.currentRange === TodosListRange.Completed}
           onClick={() => props.onSelected(TodosListRange.Completed)}
         >
           Completed
-        </div>
+        </TodosListFooterButton>
       </div>
-      <div
-        css={{
-          cursor: 'pointer',
-          border: `2px solid ${theme.colors.border}`,
-          padding: '0.25rem'
-        }}
+      <TodosListFooterButton
+        active={true}
         onClick={onClearCompleted}
       >
         Clear completed
-      </div>
+      </TodosListFooterButton>
     </li>
   );
 }
